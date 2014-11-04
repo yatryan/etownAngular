@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>AngularJS Tech Talk</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="reveal/css/reveal.min.css">
+		<link rel="stylesheet" href="reveal/css/theme/beige.css" id="theme">
+
+		<script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="reveal/lib/css/zenburn.css">
+
+		<!--[if lt IE 9]>
+		<script src="reveal/lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<div class="slides">
+				<section>
+					<h1>AngularJS</h1>
+					<h3>Modern Framework for Web Apps</h3>
+					<p>
+						<small>Taylor Ryan</small><br>
+						<small>November 5th, 2014</small>
+					</p>
+				</section>
+
+				<section>
+					<h2>Who's this guy?</h2>
+					<ul>
+						<li class="fragment">Taylor Ryan</li>
+						<li class="fragment">2014 Graduate</li>
+						<li class="fragment">Computer Science &amp; Math Major</li>
+						<li class="fragment">Associate Developer @ Trifecta Technologies</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>HTML</h2>
+					<p class="fragment">Great for static webpages</p>
+					<pre class="fragment"><code>
+	<p>Fantastic Content</p>
+					</code></pre>
+
+					<p class="fragment">No so great for dynamic content</p>
+					<pre class="fragment"><code>
+  <p id="greeting1"></p>
+  <script>
+    var isIE = document.attachEvent;
+    var addListener = isIE 
+    ? function(e, t, fn) { e.attachEvent('on' + t, fn); }
+    : function(e, t, fn) { e.addEventListener(t, fn, false); };
+    addListener(document, 'load', function(){
+      var greeting = document.getElementById('greeting1');
+      if (isIE) {
+        greeting.innerText = 'Hello IE!';
+      } else {
+        greeting.textContent = 'Hello Modern Web Browser!';
+      }
+    });
+  </script>
+					</code>
+					</pre>
+
+					<aside class="notes">
+						Most of the time when I mention HTML, I mean HTML4 and older, not the latest HTML5. All of that Javascript for nothing.
+					</aside>
+				</section>
+
+				<section>
+					<h2>But AngularJS?</h2>
+					<p class="fragment">Javascript frameworks have greatly matured over the last few years.</p>
+					<p class="fragment">Modern frameworks can produce better, cleaner, more efficient web applications.</p>
+					<p class="fragment">Angular just makes things easier!</p>
+				</section>
+
+				<section>
+					<h2>Types of Web Apps</h2>
+					<ul>
+						<li class="fragment">
+							Single Page
+							<ul>
+								<li class="fragment">Load everything from the start</li>
+								<li class="fragment">Browsers and HTML were not designed for this</li>
+								<li class="fragment">Involves a lot of work!</li>
+							</ul>
+						</li>
+						<li class="fragment">
+							Multi-page
+							<ul>
+								<li class="fragment">Usually static content</li>
+								<li class="fragment">What browsers and HTML are designed for</li>
+								<li class="fragment">Very few changes after the page loads</li>
+								<li class="fragment">index.html, contact.html, about.html, etc.</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>So Why Angular?</h2>
+					<ul>
+						<li class="fragment">MVC</li>
+						<li class="fragment">Data Binding</li>
+						<li class="fragment">Directives</li>
+						<li class="fragment">Testing</li>
+						<li class="fragment">LOTS OF TESTING!</li>
+						<li class="fragment">Dependency Injection</li>
+						<li class="fragment">Did I mention Testing?</li>
+					</ul>
+				</section>
+
+				<section id="mvc">
+					<section>
+						<h2>MVC</h2>
+
+						<ul>
+							<li class="fragment">
+								Model
+								<ul>
+									<li class="fragment">Data Layer</li>
+								</ul>
+							</li>
+							<li class="fragment">
+								View
+								<ul>
+									<li class="fragment">HTML and CSS</li>
+								</ul>
+							</li>
+							<li class="fragment">
+								Controller
+								<ul>
+									<li class="fragment">Where the action happens</li>
+									<li class="fragment">Decides what webpages get rendered</li>
+								</ul>
+							</li>
+						</ul>
+						<aside class="notes">
+							Model - The model are you data objects (i.e. a car). You are able to store/update/edit certain properties (color, price, etc.) of that model in a database that is easily accessible.<br>
+							View - A visual representation of the model. it can display some propteries of the model and hide others.<br>
+							Controller - Say you are on a webpage and click the registration button. The controller has a function telling the site to render the register page that has the register form on it.
+						</aside>
+					</section>
+
+					<section>
+						<h2>Angular MVC</h2>
+						
+						<p class="fragment">Angular defines where the controller is.</p>
+						<p class="fragment">Views are the HTML and CSS files.</p>
+						<p class="fragment">The Model is the $scope object.</p>		
+
+						<aside class="notes">
+							$scope is like the glue between the view and the controller
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Data Binding</h2>
+						<ul>
+							<li class="fragment">A model</li>
+							<li class="fragment">A view</li>
+						</ul>
+						<br><br><br>
+						<p class="fragment">You <strong>need</strong> to display this data!</p>
+
+						<aside class="notes">
+							A model - You have this model<br>
+							A view - You have this view<br>
+							You need to display this data! - Data binding lets you do this!
+						</aside>
+					</section>
+
+					<section>
+						<h2>Data Binding, cont.</h2>
+						<p>Steps:</p>
+						<ol>
+							<li class="fragment">Define a Model</li>
+							<li class="fragment">Bind it to the template (view)</li>
+							<li class="fragment">Modify the Model, and Angular updates the  tempalre</li>
+						</ol>
+						<br><br><br>
+						<p class="fragment">Angular knows to update the model when the user interacts with the UI.</p>
+					</section>
+
+					<section>
+						<h2>Data Binding, Example</h2>
+						<p>Code:</p>
+						<pre><code>
+    &lt;div ng-app&gt;
+        &lt;label&gt;Name:&lt;/label&gt;
+        &lt;input type="text" ng-model="yourName"&gt;
+        &lt;p&gt;Hello {{yourName}}!&lt;/p&gt;
+    &lt;/div&gt;
+            </code></pre>
+            <div class="fragment" id="dataBindingExample">
+              <label>Name:</label>
+              <input type="text" ng-model="yourName" placeholder="Enter a name here">
+              <hr>
+              <h1>Hello {{yourName}}!</h1>
+            </div>
+            <aside class="notes">
+              This seems trivial, but this sort of data binding eliminates a lot of boilerplate code that we often have to write to keep two things in sync.<br>
+              The curly braces are for angular's interpolation.  We can do evaluations between the braces, like {{ 1 + 1 }}, and it will evaluate it.
+            </aside>
+					</section>
+
+					<section>
+						<h2>Dirty Checking</h2>
+
+						<p class="fragment">Angular does this automatic update by dirty checking.</p>
+						<p class="fragment">If there is a change in the value, then it fires a change event.</p>
+						<p class="fragment">Dirty Checking does not have the best performance in terms of computers.</p>
+						<p class="fragment">
+							But think about it:
+							<ul>
+								<li class="fragment">Humans are slow.</li>
+								<li class="fragment">Thus, under 50 milliseconds is "instant".</li>
+							</ul>
+						</p>
+
+						<aside class="notes">
+							The change event is when angular updates.<br>
+							<b>Think about it</b>: anything faster than 50 ms is considered "instant". Thus, if the dirty checking happens under 50 ms, we think it happens instantly!
+            </aside>
+					</section>
+				</section>
+
+				<section  id="directives">
+					<section>
+						<h2>Directives</h2>
+						<ul>
+							<li class="fragment">Expand HTML's vocab</li>
+							<li class="fragment">Custom, reusable DOM elements</li>
+							<li class="fragment">Functionally equivalent to HTML5 Web Components</li>
+						</ul>
+
+						<aside class="notes">
+							DOM - Document Object Model<br>
+							The biggest thing with directives is the reusability!
+            </aside>
+					</section>
+
+					<section>
+						<h2>Directives, Example 1</h2>
+						<h4 class="fragment">Your Controller Code</h4>
+            <pre class="fragment"><code style="font-size: large;" data-trim>
+dirEx.controller('DirectiveController', ['$scope', function($scope) {
+   $scope.focused = false;
+   $scope.toggle = function toggle() {
+      $scope.focused = !$scope.focused;
+   };
+}]);
+            </code></pre>
+            <h4 class="fragment">Your HTML Code</h4>
+            <pre class="fragment"><code style="font-size: large;" data-trim>
+<div id="directiveExample" ng-controller="DirectiveController">
+    <input ng-model="yourName" ng-focus="toggle()" ng-blur="toggle()" />
+    <p style="font-size: small" ng-show="focused">
+        Please Enter your First Name.
+    </p>
+    <h5>{{yourName}}</h5>
+</div>
+            </code></pre>
+            <div class="fragment" id="directiveEx1" ng-controller="DirectiveController">
+              <input ng-model="yourName"
+                     ng-focus="toggle()"
+                     ng-blur="toggle()">
+              <p style="font-size: small" ng-show="focused">Please Enter your First Name.</p>
+              <h5>{{yourName}}</h5>
+            </div>
+
+            <aside class="notes">
+							As you can see from the code, ng-focus and ng-blur are two angular directives to handle html events.<br>
+							ng-focus: Triggered when the field is brought into focus.<br>
+							ng-blur: Triggered when the field's blur is called.<br>
+            </aside>
+					</section>
+
+					<section>
+						<h2>Directives, Example 2</h2>
+						<h4 class="fragment">Your Controller Code</h4>
+            <pre class="fragment"><code style="font-size: large;" data-trim>
+dirExTwo.controller('DirectiveController', ['$scope', function($scope) {
+    $scope.users = [ { name: 'Omar', year: 'Senior', rank: 'President' },
+    { name: 'Jeff', year: 'Senior', rank: 'Vice President' },
+    { name: 'Linh', year: 'Senior', rank: 'Treasurer' },
+    { name: 'Leap', year: 'Dr.', rank: 'Boss' } ];
+}]);
+            </code></pre>
+            <h4 class="fragment">Your HTML Code</h4>
+            <pre class="fragment"><code style="font-size: large;" data-trim>
+<div id="directiveExampleTwo" ng-controller="DirectiveController">
+    <ul>
+    	<li ng-repeat="user in users">Name: {{user.name}} ({{user.year}}) - {{user.rank}}</li>
+    </ul>
+</div>
+            </code></pre>
+            <div class="fragment" id="directiveEx2" ng-controller="DirectiveController">
+              <ul>
+						  	<li ng-repeat="user in users">Name: {{user.name}} ({{user.year}}) - {{user.rank}}</li>
+						  </ul>
+            </div>
+
+            <aside class="notes">
+							ng-repeat
+            </aside>
+					</section>
+
+					<section>
+						<h2>Custom Elements</h2>
+            <h4>Your HTML Code</h4>
+            <pre><code style="font-size: large;" data-trim>
+<profile member-num="1"></profile>
+            </code></pre>
+
+            <h4 class="fragment">Result:</h4>
+
+            <div class="fragment" id="directiveEx3" ng-controller="DirectiveController">
+            	<profile member-num="1"></profile>
+            </div>
+
+            <aside class="notes">
+							As you can see from the code, ng-focus and ng-blur are two angular directives to handle html events.<br>
+							ng-focus: Triggered when the field is brought into focus.<br>
+							ng-blur: Triggered when the field's blur is called.<br>
+            </aside>
+					</section>
+
+					<section data-background="#4056FF">
+						<h2>Custom Elements</h2>
+						<h4 class="fragment">So many possibilites!</h4>
+						<pre class="fragment"><code>
+	<profile></profile>
+					</code></pre>
+					<pre class="fragment"><code>
+	<error-msg></error-msg>
+					</code></pre>
+					<pre class="fragment"><code>
+	<wombat></wombat>
+					</code></pre>
+					</section>
+				</section>
+
+				<section id="filters">
+					<h2>Filters</h2>
+
+					<p class="fragment">A filter formats the value of an expression for display to the user.</p>
+					<p class="fragment">They can be used in view templates, controllers or services and it is easy to define your own filter.</p>
+					<p class="fragment">Filters can be applied to expressions in templates using the following syntax:</p>
+					<pre class="fragment"><code>
+	{{ expression | filter }}
+					</code></pre>
+					<p class="fragment">You can also chain filters:</p>
+					<pre class="fragment"><code>
+	{{ expression | filter1 | filter2 | ... }}
+					</code></pre>
+					<aside class="notes">
+						Filters
+          </aside>
+				</section>
+
+				<section  id="inject">
+					<h2>Dependency Injection</h2>
+					<p class="fragment">Dependencies are passed in where they are needed</p>
+					<p class="fragment">Angular does this with an injector service, and the $inject annotation</p>
+					<p class="fragment">Example:
+					<pre class="fragment"><code>
+    dirEx.controller('MyController', 
+      function($scope, $timeout) {
+        $scope.focused = false;
+    }]);
+					</code></pre>
+					</p>
+
+					<aside class="notes">
+						Dependency Injection is a huge part of Angular. As with java, you need to import any dependenices in every file they are needed. On the other hand, with angular, you provide the angular app with the all dependencies up from. Then, if a controller, or directive, or service, etc, needs one of these dependencies, you just inject it.
+          </aside>
+				</section>
+
+				<section  id="testing">
+					<section>
+						<h2>Testing you say?</h2>
+						<p class="fragment">Angular supports unit testing as well as end to end testing.</p>
+						<ul>
+							<li class="fragment">Unit Testing
+								<ul>
+									<li class="fragment">Tests the funcationality of the app</li>
+									<li class="fragment">Jasmine, Mocha, QUnit, so many choices!</li>
+								</ul>
+							</li>
+							<li class="fragment">E2E Testing
+								<ul>
+									<li class="fragment">Used to test the entire application</li>
+									<li class="fragment">Ships with a custom E2E test runner, <em>Protractor</em></li>
+									<li class="fragment">Runs on top of Selenium WebDriver</li>
+									<li class="fragment">Uses Jasmine-like Syntax</li>
+								</ul>
+							</li>
+						</ul>
+
+
+					<aside class="notes">
+						Unit testing - A unit is the smallest functional piece of code that you can isolate and put under test. Usually its one specific function. The tests for the unit should run sample input through the unit and assert that the output of the unit is what you expected it to be. When building an application you should try and write adequate unit tests for every non-trivial piece of logic in the application.<br>
+						Protractor - Such a pain to google.
+          </aside>
+					</section>
+
+					<section>
+						<h2>Unit Testing Example</h2>
+						<p>Controller Code:</p>
+						<pre class="fragment"><code>
+  function PasswordCtrl($scope) {
+    $scope.grade = function(password) {
+      var size = password.length;
+      if (size > 8) {
+        return 'strong';
+      } else if (size > 3) {
+        return 'medium';
+      } else {
+        return 'weak';
+      }
+    };
+  }
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>Unit Testing Example</h2>
+						<p>Test Cases:</p>
+						<pre class="fragment"><code>
+  describe('Password Grade', function() {
+    it('should return password rating', function() {
+      expect( $scope.grade('StronGPasSwoRD!') ).toEqual('strong');
+      expect( $scope.grade('abcdef') ).toEqual('medium');
+      expect( $scope.grade('42') ).toEqual('weak');
+    });
+
+    it('should not return empty string ever', function() {
+      expect( $scope.grade('Etown2014') ).not.toEqual('');
+    });
+  });
+						</code></pre>
+					</section>
+
+					<section>
+						<h2>E2E Example</h2>
+
+						<pre class="fragment" style="width: 95%;"><code style="max-height: 500px;">
+  describe('TODO list', function() {
+    it('should filter results', function() {
+
+      // Find the element with ng-model="user" and type "jacksparrow" into it
+      element(by.model('user')).sendKeys('jacksparrow');
+
+      // Find the first (and only) button on the page and click it
+      element(by.css(':button')).click();
+
+      // Verify that there are 10 tasks
+      expect(element.all(by.repeater('task in tasks')).count()).toEqual(10);
+
+      // Enter 'groceries' into the element with ng-model="filterText"
+      element(by.model('filterText')).sendKeys('groceries');
+
+      // Verify that now there is only one item in the task list
+      expect(element.all(by.repeater('task in tasks')).count()).toEqual(1);
+    });
+  });
+						</code></pre>
+					</section>
+				</section>
+				
+				<section data-background="#39B851">
+					<h2>Questions?</h2>
+
+					<aside class="notes">
+						Angular has a learning curve, but once the ideas click, the rest comes easily!
+          </aside>
+				</section>
+
+				<section>
+					<h2>The End!</h2>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="reveal/lib/js/head.min.js"></script>
+		<script src="reveal/js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: false,
+				progress: false,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: 'default',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'reveal/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'reveal/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+			/** Angular JS **/
+			// Example 1 - Data Binding
+      angular.module('DataBindingEx', []);
+      angular.bootstrap($('#dataBindingExample'), ['DataBindingEx']);
+
+      // Example 2 - Directives
+      var dirEx = angular.module('DirectiveExampleApp', []);
+      dirEx.controller('DirectiveController', ['$scope', function($scope) {
+				$scope.focused = false;
+				$scope.toggle = function toggle() {
+					$scope.focused = !$scope.focused;
+				};
+      }]);
+      angular.bootstrap($('#directiveEx1'), ['DirectiveExampleApp']);
+
+      // Example 3 - Directives
+      var dirExTwo = angular.module('DirectiveExampleAppTwo', []);
+      dirExTwo.controller('DirectiveController', ['$scope', function($scope) {
+		    $scope.users = [
+			    { name: 'Omar', year: 'Senior', rank: 'President' },
+			    { name: 'Jeff', year: 'Senior', rank: 'Vice President' },
+			    { name: 'Linh', year: 'Senior', rank: 'Treasurer' },
+			    { name: 'Leap', year: 'Dr.', rank: 'Boss' }
+		    ];
+			}]);
+      angular.bootstrap($('#directiveEx2'), ['DirectiveExampleAppTwo']);
+
+      // Example 3 - Custom Directive
+      var dirExThree = angular.module('DirectiveExampleAppThree', []);
+      dirExThree.controller('DirectiveController', ['$scope', function($scope) {
+		    // Nothing to see here.
+			}])
+			.directive('profile', function() {
+      	return {
+          restrict: 'E',
+          scope: {
+            memberNum: '=',
+          },
+          template: "<div style='border: 2px; border-style: solid;'><img src='http://www.gravatar.com/avatar/{{currentMember.gravatar}}?s=200'><br/><h4>{{currentMember.name}}</h4><p>Class of {{currentMember.gradClass}}</p></div>",
+          link: function (scope, element, attrs) {
+            scope.members = [{ name: 'Taylor Ryan', gradClass: '2014', gravatar:'e2cb7208cab6a7f7e32e27a1bd7c6702'}];
+            var num = parseInt(scope.memberNum)-1;
+            scope.currentMember = scope.members[num];
+          }
+        };
+      });
+      angular.bootstrap($('#directiveEx3'), ['DirectiveExampleAppThree']);
+
+		</script>
+
+	</body>
+</html>
